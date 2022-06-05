@@ -28,13 +28,17 @@ class ReCaptchaField(forms.CharField):
 
     def clean(self, values):
         # Disable the check (and allow empty field value) if we run in a unittest
+        print(os.environ.get('RECAPTCHA_DISABLE', None))
         if os.environ.get('RECAPTCHA_DISABLE', None) is not None:
             try:
                 return json.loads(os.environ.get('RECAPTCHA_DISABLE', None))
             except:
                 return {}
 
+        print("enabled!")
         response_token = super(ReCaptchaField, self).clean(values)
+        print(response_token)
+        print(self._private_key)
 
         try:
             r = requests.post(

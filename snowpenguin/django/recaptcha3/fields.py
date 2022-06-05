@@ -36,7 +36,7 @@ class ReCaptchaField(forms.CharField):
                 return {}
 
         print("enabled!")
-        print(values)
+        print(values, type(values))
         response_token = super(ReCaptchaField, self).clean(values)
         print(response_token, type(response_token))
         print({'secret': self._private_key, 'response': response_token})
